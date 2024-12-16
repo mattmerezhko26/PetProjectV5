@@ -146,6 +146,43 @@ module.exports.initialize = function () {
       .catch((err) => reject(`Unable to connect to MongoDB: ${err}`));
   });
 };
+//add a login
+app.get('/login',(req,res) =>{
+  res.render('login',{errorMessage: "",userName:""});
+});
+app.get('/register',(req,res) =>{
+  res.render('register',{errorMessage: "",userName:""});
+});
+app.post('/register',(req,res) =>{
+  req.body.userAgent = req.get('User-Agent');
+  authData.registerUser(req.body).then(() => {
+    res.render('register',{errorMessage:"",successMessage:"User created",userName:""});
+  })
+  .catch((err) =>{
+    res.render('register',{errorMessage: err,successMessage:"",userName:req.body.userName});
+  });
+
+});
+app.post('/login',(req,res) =>{
+  req.body.userAgent = req.get('User-Agent');
+  authData.checkUser(req.body).then((user) =>{
+    req.session.user = {
+      userName:userName,
+      email:user.email,
+      loginHistory:user.loginHistory,
+    };
+    res.redirect('/solutions/projects');
+  }).catch((err) =>{
+    res.render('login',{errorMessage:err,userName:req.body.userName});
+  });
+});
+app.get('/logout',(req,res) =>{
+  req.session.reset();
+  res.redirect('/');
+});
+app.get('/userHistory',ensureLogin,(req,res) =>{
+  res.render('userHistory');
+});
 projectData
   .initialize()
   .then(authData.initialize) // Adding authData initialization to the chain
