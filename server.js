@@ -4,12 +4,31 @@ const authData = require('./modules/auth-service');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const clientSessions = require('client-sessions');
 const HTTP_PORT = process.env.PORT || 8080;
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.use(express.urlencoded({ extended: true }));
-
+app.use(
+  clientSessions({
+    cookieName: 'PetProject5',  
+    secret: 'Abcde1234',  
+    duration: 24 * 60 * 60 * 1000,  
+    activeDuration: 1000 * 60 * 5,  
+  })
+);
+app.use((req,res,next) =>{
+  res.locals.session = req.session;
+  next();
+});
+//helper middleware, will check if the user is logged in by verygying
+function ensureLogin(req,res,next){
+  if(!req.session.userName){
+    return res.redirect('/login');
+  }
+  next();
+}
 app.get('/', (req, res) => {
   res.render('home');
 });
