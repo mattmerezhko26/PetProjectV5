@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+
+  </head>
+  <body tabindex="-1">
+    <!-- Navbar -->
+    <%- include('partials/navbar', { page: '' }) %>
+
+    <!-- Form Container -->
+    <div class="flex items-center justify-center h-screen">
+      <div class="w-full max-w-md bg-gray-800 shadow-lg rounded-lg p-8">
+        <h2 class="text-3xl font-bold text-center text-gray-200 mb-4">Log In</h2>
+        <p class="text-sm text-center text-gray-400 mb-6">
+          Please provide your credentials below
+        </p>
+
+        <!-- Login Form -->
+        <form method="POST" action="/login">
+          <!-- Username Input -->
+          <div class="mb-4">
+            <label for="userName" class="block text-gray-400 text-sm mb-1">User Name</label>
+            <input type="text" name="userName" id="userName" placeholder="User Name" 
+              class="w-full p-2 border border-gray-600 bg-gray-700 text-gray-200 rounded focus:outline-none focus:ring focus:ring-green-500"
+              required 
+              value="<%= userName || '' %>"
+            />
+          </div>
+
+          <!-- Password Input -->
+          <div class="mb-6">
+            <label for="password" class="block text-gray-400 text-sm mb-1">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password" 
+              class="w-full p-2 border border-gray-600 bg-gray-700 text-gray-200 rounded focus:outline-none focus:ring focus:ring-green-500"
+              required
+            />
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="w-full p-2 bg-green-500 text-white font-semibold rounded hover:bg-green-600 transition">
+            Login
+          </button>
+        </form>
+
+        <!-- Error Message -->
+        <% if (errorMessage) { %>
+          <div class="alert alert-error mt-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span><%= errorMessage %></span>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </body>
+</html>

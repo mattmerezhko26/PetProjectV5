@@ -11,13 +11,11 @@
     <%- include('partials/navbar', { page: '/solutions/projects' }) %>
     <br />
     <div class="container mx-auto">
-
       <div class="hero bg-base-200 rounded-lg p-6">
         <div class="hero-content text-center">
           <div class="max-w-md">
             <h1 class="text-5xl font-bold">Projects</h1>
             <p class="py-6">Discover the solutions we offer across various sectors.</p>
-   
             <div class="sector-filters">
               <a href="/solutions/projects?sector=Industry" class="btn btn-primary">Industry</a>
               <a href="/solutions/projects?sector=Transportation" class="btn btn-primary">Transportation</a>
@@ -39,7 +37,6 @@
           </tr>
         </thead>
         <tbody>
-
           <% projects.forEach(project => { %>
           <tr>
             <td><%= project.title %></td>
