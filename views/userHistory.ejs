@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User History</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body tabindex="-1">
+  <%- include('partials/navbar', { page: '' }) %>
+  <!-- Hero Section -->
+  <section class="py-10 bg-gray-800 shadow-md rounded-md text-center">
+    <h1 class="text-4xl font-bold mb-4">Welcome, <%= session.user.userName %></h1>
+    <p class="text-xl">Email: <%= session.user.email %></p>
+  </section>
+
+  <!-- Login History Table -->
+  <section class="mt-10 container mx-auto">
+    <h2 class="text-2xl font-bold mb-4 text-center">Login History</h2>
+    <table class="w-full table-auto border-collapse border border-gray-700">
+      <thead>
+        <tr class="bg-gray-700 text-gray-300">
+          <th class="border border-gray-600 px-4 py-2">Login Date/Time</th>
+          <th class="border border-gray-600 px-4 py-2">Client Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% session.user.loginHistory.forEach(function(login) { %>
+          <tr class="hover:bg-gray-800">
+            <!-- Format the login date/time -->
+            <td class="border border-gray-600 px-4 py-2">
+              <%= new Date(login.dateTime).toLocaleString() %>
+            </td>
+            <!-- Display the client information -->
+            <td class="border border-gray-600 px-4 py-2">
+              <%= login.userAgent %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </section>
+</body>
+</html>

@@ -71,24 +71,30 @@ app.post('/register', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  const username = req.body.userName;
-  const password = req.body.password;
-  console.log('Attempting login for user:', username);
-  authData.checkUser(username, password)
+  const userData = {
+    userName: req.body.userName,
+    password: req.body.password,
+    userAgent: req.get('User-Agent'), // Include User-Agent in the object
+  };
+
+  console.log('Attempting login for user:', userData.userName);
+
+  authData.checkUser(userData) // Pass the entire object
     .then((user) => {
       req.PetProject5.user = {
         userName: user.userName,
         email: user.email,
         loginHistory: user.loginHistory,
       };
-      console.log('Login successful for:', username);
+      console.log('Login successful for:', user.userName);
       res.redirect('/solutions/projects'); 
     })
     .catch((err) => {
       console.error('Login failed:', err);
-      res.render('login', { errorMessage: err, userName: username });
+      res.render('login', { errorMessage: err, userName: userData.userName });
     });
 });
+
 
 app.get('/logout', (req, res) => {
   console.log('Logging out user');
